@@ -1,0 +1,17 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/rack_datamapper.rb
+lib/rack_datamapper/identity_maps.rb
+lib/rack_datamapper/restful_transactions.rb
+lib/rack_datamapper/session/abstract/store.rb
+lib/rack_datamapper/session/datamapper.rb
+lib/rack_datamapper/transaction_boundaries.rb
+lib/rack_datamapper/version.rb
+spec/datamapper_session_spec.rb
+spec/identity_maps_spec.rb
+spec/restful_transactions_spec.rb
+spec/spec.opts
+spec/spec_helper.rb
+spec/transaction_boundaries_spec.rb
