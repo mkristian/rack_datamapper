@@ -1,4 +1,14 @@
-=== 1.0.0 / 2009-02-09
+=== 0.2.0 / 2009-09-09
+
+* added more specs for the session store
+
+* added java SoftHashMap to avoid memory leaks of the session cache (when used with jruby and java >=1.5)
+
+* some bug fixes with the cache
+
+* made it a rubyforge.org project and deployed a gem for it
+
+=== 0.1.0 / 2009-02-09
 
 * 1 major enhancement
 

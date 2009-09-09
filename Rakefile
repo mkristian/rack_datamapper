@@ -10,7 +10,6 @@ require 'pathname'
 require 'yard'
 
 Hoe.new('rack_datamapper', Rack::DataMapper::VERSION) do |p|
-  # p.rubyforge_name = 'dm-utf8x' # if different than lowercase project name
   p.developer('mkristian', 'm.kristian@web.de')
 end
 
@@ -27,8 +26,6 @@ Spec::Rake::SpecTask.new(:spec) do |t|
   end
   t.spec_files = Pathname.glob('./spec/**/*_spec.rb')
 end
-
-require 'yard'
 
 YARD::Rake::YardocTask.new
 

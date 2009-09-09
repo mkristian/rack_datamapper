@@ -8,7 +8,23 @@ module DataMapper
         def initialize(app, options, id_generator)
           @mutex = Mutex.new
           if options.delete(:cache)
-            @@cache = {}
+            @@cache = if RUBY_PLATFORM =~ /java/
+                        begin
+                          # to avoid memory leaks use a hashmap which clears
+                          # itself on severe memory shortage
+                          require 'softhashmap'
+                          m = Java.SoftHashMap.new
+                          def m.delete(key)
+                            remove(key)
+                          end
+                          m
+                        rescue
+                          # fallback to non java Hash
+                          {}
+                        end
+                      else
+                        {}
+                      end
             @@semaphore = Mutex.new
           else
             @@cache = nil unless self.class.class_variable_defined? :@@cache
@@ -31,7 +47,8 @@ module DataMapper
           unless sid and session
             env['rack.errors'].puts("Session '#{sid.inspect}' not found, initializing...") if $VERBOSE and not sid.nil?
             sid = @id_generator.call
-            session = @@session_class.create(:session_id => sid, :updated_at => Time.now)
+            session = @@session_class.create(:session_id => sid)
+            @@cache[sid] = session if @@cache
           end
           #session.instance_variable_set('@old', {}.merge(session))
 
@@ -48,17 +65,17 @@ module DataMapper
             else
               @@session_class.get(sid)
             end 
-return false if session.nil?
-        if options[:renew] or options[:drop]
-          @@cache.delete(sid) if @@cache
-          session.destroy
-          return false if options[:drop]
-          sid = @id_generator.call
-          session = @@session_class.create(:session_id => sid, :updated_at => Time.now)
-          @@cache[sid] = session if @@cache
-        end
-#        old_session = new_session.instance_variable_get('@old') || {}
-#        session = merge_sessions session_id, old_session, new_session, session
+          return false if session.nil?
+          if options[:renew] or options[:drop]
+            @@cache.delete(sid) if @@cache
+            session.destroy
+            return false if options[:drop]
+            sid = @id_generator.call
+            session = @@session_class.create(:session_id => sid)
+            @@cache[sid] = session if @@cache
+          end
+          #        old_session = new_session.instance_variable_get('@old') || {}
+          #        session = merge_sessions session_id, old_session, new_session, session
           session.data = session_data
           if session.save
             session.session_id
