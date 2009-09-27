@@ -38,7 +38,7 @@ module DataMapper
           if sid
             session = 
               if @@cache
-                @@cache[sid] || @@session_class.get(sid)
+                @@cache[sid] || @@cache[sid] = @@session_class.get(sid)
               else
                 @@session_class.get(sid)
               end
@@ -61,7 +61,7 @@ module DataMapper
           @mutex.lock if env['rack.multithread']
           session = 
             if @@cache
-              @@cache[sid] || @@session_class.get(sid)
+              @@cache[sid] || @@cache[sid] = @@session_class.get(sid)
             else
               @@session_class.get(sid)
             end 
@@ -77,7 +77,11 @@ module DataMapper
           #        old_session = new_session.instance_variable_get('@old') || {}
           #        session = merge_sessions session_id, old_session, new_session, session
           session.data = session_data
-          if session.save
+          if session_data.empty?
+            @@cache.delete(sid) if @@cache
+            session.destroy
+            false
+          elsif session.save
             session.session_id
           else
             false

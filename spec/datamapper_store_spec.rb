@@ -48,6 +48,17 @@ describe DataMapper::Session::Abstract::Store do
       result[0].should_not be_nil
       result[1].should == {:id => 123}
     end
+
+    it 'should delete empty sessions' do
+      DataMapper::Session::Abstract::Session.should_receive(:create).and_return(mock_session)
+      DataMapper::Session::Abstract::Session.should_receive(:get).and_return(mock_session)
+      mock_session.should_receive(:data).and_return({})
+      mock_session.should_receive(:data=).with({})
+      mock_session.should_receive(:destroy).and_return(true)
+
+      session_id = @store.get_session({}, nil)[0]
+      @store.set_session({}, session_id, {}, {}).should be_false
+    end
   end
 
   describe 'with cache' do
@@ -74,7 +85,9 @@ describe DataMapper::Session::Abstract::Store do
 
     it 'should get the session data from storage' do
       DataMapper::Session::Abstract::Session.stub!(:get).and_return(mock_session)
-      mock_session.should_receive(:data).and_return({:id => "id"})
+      mock_session.should_receive(:data).twice.and_return({:id => "id"})
+      @store.get_session({}, "sid").should == ["sid",{:id => "id"}]
+      # second get should use the cache
       @store.get_session({}, "sid").should == ["sid",{:id => "id"}]
     end
 
@@ -86,6 +99,19 @@ describe DataMapper::Session::Abstract::Store do
       result =  @store.get_session({}, session_id)
       result[0].should_not be_nil
       result[1].should == {}
+    end
+
+    it 'should set the session data with empty cache' do
+      DataMapper::Session::Abstract::Session.should_receive(:get).and_return(mock_session)
+      mock_session.should_receive(:data=).with({:id => 432})
+      mock_session.should_receive(:save).and_return(true)
+      mock_session.should_receive(:session_id).and_return("sid")
+      mock_session.should_receive(:data).and_return({:id => 123})
+      @store.set_session({}, "sid", {:id => 432},{}).should == "sid"
+      result =  @store.get_session({}, "sid")
+
+      result[0].should_not be_nil
+      result[1].should == {:id => 123}
     end
 
     it 'should set the session data' do
@@ -102,6 +128,16 @@ describe DataMapper::Session::Abstract::Store do
 
       result[0].should_not be_nil
       result[1].should == {:id => 123}
+    end
+
+    it 'should delete empty sessions' do
+      DataMapper::Session::Abstract::Session.should_receive(:create).and_return(mock_session)
+      mock_session.should_receive(:data).and_return({})
+      mock_session.should_receive(:data=).with({})
+      mock_session.should_receive(:destroy).and_return(true)
+
+      session_id = @store.get_session({}, nil)[0]
+      @store.set_session({}, session_id, {}, {}).should be_false
     end
   end
 end

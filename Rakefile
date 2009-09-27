@@ -11,6 +11,7 @@ require 'yard'
 
 Hoe.new('rack_datamapper', Rack::DataMapper::VERSION) do |p|
   p.developer('mkristian', 'm.kristian@web.de')
+  p.extra_deps = ['dm-core']
 end
 
 desc 'Install the package as a gem.'
