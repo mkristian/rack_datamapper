@@ -95,8 +95,8 @@ module DataMapper
         
         include ::DataMapper::Resource
         
-        def self.name
-          "session"
+        def self.default_storage_name
+          "Session"
         end
         
         property :session_id, String, :key => true
