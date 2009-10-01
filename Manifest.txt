@@ -3,6 +3,7 @@ Manifest.txt
 README.txt
 Rakefile
 lib/rack_datamapper.rb
+lib/softhashmap.jar
 lib/rack_datamapper/identity_maps.rb
 lib/rack_datamapper/restful_transactions.rb
 lib/rack_datamapper/session/abstract/store.rb
