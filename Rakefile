@@ -9,7 +9,7 @@ require 'spec/rake/spectask'
 require 'pathname'
 require 'yard'
 
-Hoe.new('rack_datamapper', Rack::DataMapper::VERSION) do |p|
+Hoe.new('rack-datamapper', Rack::DataMapper::VERSION) do |p|
   p.developer('mkristian', 'm.kristian@web.de')
   p.extra_deps = ['dm-core']
 end
