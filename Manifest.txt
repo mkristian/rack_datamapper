@@ -2,6 +2,7 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
+lib/rack-datamapper.rb
 lib/rack_datamapper.rb
 lib/softhashmap.jar
 lib/rack_datamapper/identity_maps.rb
