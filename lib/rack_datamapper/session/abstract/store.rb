@@ -1,5 +1,5 @@
 require 'dm-core'
-
+require 'base64'
 module DataMapper
   module Session
     module Abstract
