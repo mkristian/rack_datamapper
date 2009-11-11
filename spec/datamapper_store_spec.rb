@@ -11,7 +11,7 @@ describe DataMapper::Session::Abstract::Store do
 
     before :each do
       @store = DataMapper::Session::Abstract::Store.new(nil, 
-                                                       {}, 
+                                                       {:cache => false}, 
                                                        Proc.new do
                                                           1
                                                        end

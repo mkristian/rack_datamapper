@@ -7,7 +7,7 @@ module DataMapper
 
         def initialize(app, options, id_generator)
           @mutex = Mutex.new
-          if options.delete(:cache)
+          if cache = options.delete(:cache)
             @@cache = if RUBY_PLATFORM =~ /java/
                         begin
                           # to avoid memory leaks use a hashmap which clears
@@ -27,7 +27,7 @@ module DataMapper
                       end
             @@semaphore = Mutex.new
           else
-            @@cache = nil unless self.class.class_variable_defined? :@@cache
+            @@cache = nil unless cache.nil? && self.class.class_variable_defined?(:@@cache)
           end
           @@session_class = options.delete(:session_class) || Session unless (self.class.class_variable_defined?(:@@session_class) and @@session_class)
           @id_generator = id_generator

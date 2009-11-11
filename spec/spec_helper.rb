@@ -1,9 +1,6 @@
 require 'pathname'
 require 'rubygems'
 
-gem 'rspec', '~>1.2'
-require 'spec'
-
 $LOAD_PATH << Pathname(__FILE__).dirname.parent.expand_path + 'lib'
 require 'rack_datamapper'
 
@@ -15,6 +12,7 @@ def load_driver(name, default_uri)
     DataMapper::Repository.adapters[:default] =  DataMapper::Repository.adapters[name]
     true
   rescue LoadError => e
+    p e.backtrace
     warn "Could not load do_#{name}: #{e}"
     false
   end
