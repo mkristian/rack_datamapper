@@ -84,7 +84,7 @@ describe DataMapper::RestfulTransactions do
 
   it 'should rollback when status is not redirect and method is not GET' do
     mock_request.should_receive(:request_method).any_number_of_times.and_return("PUT")
-    app = RestfulTransactionsApp.new(200) do
+    app = RestfulTransactionsApp.new(404) do
       Name.create(:name => 'first')
       # TODO is this read uncommited ?
       Name.all.size.should == 1
@@ -92,7 +92,7 @@ describe DataMapper::RestfulTransactions do
     DataMapper::RestfulTransactions.new(app).call(nil)
     Name.all.size.should == 0
 
-    app = RestfulTransactionsApp.new(404) do
+    app = RestfulTransactionsApp.new(100) do
       Name.create(:name => 'first')
       # TODO is this read uncommited ?
       Name.all.size.should == 1
