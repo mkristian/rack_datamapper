@@ -1,6 +1,6 @@
 require 'pathname'
 require 'rubygems'
-gem 'dm-core', '0.9.10'
+#gem 'dm-core', '0.9.10'
 $LOAD_PATH << Pathname(__FILE__).dirname.parent.expand_path + 'lib'
 require 'rack_datamapper'
 require 'dm-core/version'
