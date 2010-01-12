@@ -17,7 +17,7 @@ module DataMapper
           transaction = DataMapper::Transaction.new(DataMapper.repository(@name))
           transaction.commit do
             status, headers, response = @app.call(env)
-            raise Rollback unless (200 < status && status < 400)
+            raise Rollback unless (200 <= status && status < 400)
           end
         rescue Rollback 
           # ignore, 
