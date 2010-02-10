@@ -8,6 +8,14 @@
 
 this collection of plugins helps to add datamapper functionality to Rack. there is a IdentityMaps plugin which wrappes the request and with it all database actions are using that identity map. the transaction related plugin TransactionBoundaries and RestfulTransactions wrappes the request into a transaction. for using datamapper to store session data there is the DatamapperStore.
 
+=== NAMING of the GEM
+
+due to some restrictions on rubyforge I could not use the under score in the gem name, so the gem name is
+
+rack-datamapper
+
+sorry for the confusion this might cause. see also http://gemcutter.org/search?query=rack-datamapper
+
 === DataMapper::Session::Abstract::Store
 
 this is actual store class which can be wrapped to be used in a specific environement, i.e. Rack::Session::Datamapper. this store can the same options as the session store from rack, see
