@@ -101,9 +101,9 @@ module DataMapper
         
         property :session_id, String, :key => true
         
-        property :data, Text, :nullable => false, :default => ::Base64.encode64(Marshal.dump({}))
+        property :data, Text, :required => true, :default => ::Base64.encode64(Marshal.dump({}))
         
-        property :updated_at, DateTime, :nullable => true, :index => true
+        property :updated_at, DateTime, :required => false, :index => true
         
         def data=(data)
           attribute_set(:data, ::Base64.encode64(Marshal.dump(data)))
