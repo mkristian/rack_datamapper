@@ -1,3 +1,7 @@
+=== 0.3.1 / 2010-06-15
+
+* maven did not handle the declared deps nicely, repush the gem with proper deps version
+
 === 0.3.0 / 2010-06-15
 
 * removed hoe use gemspec or maven instead, works only with datamapper version '~>1.0.0'
