@@ -11,6 +11,21 @@
   <name><![CDATA[this collection of plugins helps to add datamapper functionality to Rack]]></name>
   <description><![CDATA[this collection of plugins helps to add datamapper functionality to Rack. there is a IdentityMaps plugin which wrappes the request and with it all database actions are using that identity map. the transaction related plugin TransactionBoundaries and RestfulTransactions wrappes the request into a transaction. for using datamapper to store session data there is the DatamapperStore.]]></description>
   <url>http://github.com/mkristian/rack_datamapper</url>
+  <licenses>
+    <license>
+      <name>MIT-LICENSE</name>
+      <url>./MIT-LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>mkristian</id>
+      <name>Kristian Meier</name>
+      <email>m.kristian@web.de</email>
+      <timezone>IST</timezone>
+    </developer>
+  </developers>
   <dependencies>
     <dependency>
       <groupId>rubygems</groupId>
