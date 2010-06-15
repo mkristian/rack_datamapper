@@ -1,3 +1,7 @@
+=== 0.3.0 / 2010-06-15
+
+* removed hoe use gemspec or maven instead, works only with datamapper version '~>1.0.0'
+
 === 0.2.5 / 2009-12-04
 
 * restful transaction does commit on status between 200 and 399 now

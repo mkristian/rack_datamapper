@@ -61,9 +61,16 @@
       <url>http://gems.saumya.de/releases</url>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jruby.plugins.version>0.12.1-SNAPSHOT</jruby.plugins.version>
+    <jruby.plugins.version>0.20.0-SNAPSHOT</jruby.plugins.version>
   </properties>
   <build>
     <plugins> 
@@ -71,6 +78,11 @@
         <groupId>de.saumya.mojo</groupId>
         <artifactId>rspec-maven-plugin</artifactId>
         <version>${jruby.plugins.version}</version>
+	<executions>
+          <execution>
+	    <goals><goal>test</goal></goals>
+	  </execution>
+	</executions>
       </plugin>
       <plugin>
         <groupId>de.saumya.mojo</groupId>
