@@ -84,6 +84,7 @@ module DataMapper
           elsif session.save
             session.session_id
           else
+            warn session.errors.inspect if session.errors.size > 0
             false
           end
         ensure
@@ -101,16 +102,16 @@ module DataMapper
         
         property :session_id, String, :key => true
         
-        property :data, Text, :required => true, :default => ::Base64.encode64(Marshal.dump({}))
+        property :raw_data, Text, :required => true, :default => ::Base64.encode64(Marshal.dump({})), :field => 'data'
         
         property :updated_at, DateTime, :required => false, :index => true
         
         def data=(data)
-          attribute_set(:data, ::Base64.encode64(Marshal.dump(data)))
+           attribute_set(:raw_data, ::Base64.encode64(Marshal.dump(data)))
         end
         
         def data
-          Marshal.load(::Base64.decode64(attribute_get(:data)))
+          Marshal.load(::Base64.decode64(attribute_get(:raw_data)))
         end
       end
     end

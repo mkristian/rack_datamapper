@@ -1,3 +1,7 @@
+=== 0.3.2 / 2010-06-15
+
+* fixed now the session store works also with dm-validations
+
 === 0.3.1 / 2010-06-15
 
 * maven did not handle the declared deps nicely, repush the gem with proper deps version
