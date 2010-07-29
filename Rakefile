@@ -1,16 +1,15 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require './lib/rack_datamapper/version.rb'
 
 require 'spec'
 require 'spec/rake/spectask'
 
-build_dir = 'target'
+BUILD_DIR = 'target'
 
 desc 'clean up'
 task :clean do
-  FileUtils.rm_rf(build_dir)
+  FileUtils.rm_rf(BUILD_DIR)
 end
 
 desc 'Package as a gem.'
@@ -18,15 +17,15 @@ task :package do
   require 'fileutils'
   gemspec = Dir['*.gemspec'].first
   Kernel.system("#{RUBY} -S gem build #{gemspec}")
-  FileUtils.mkdir_p(build_dir)
+  FileUtils.mkdir_p(BUILD_DIR)
   gem = Dir['*.gem'].first
-  FileUtils.mv(gem, File.join(build_dir,"#{gem}"))
-  puts File.join(build_dir,"#{gem}")
+  FileUtils.mv(gem, File.join(BUILD_DIR,"#{gem}"))
+  puts File.join(BUILD_DIR,"#{gem}")
 end
 
 desc 'Install the package as a gem.'
 task :install => [:package] do
-  gem = Dir[File.join(build_dir, '*.gem')].first
+  gem = Dir[File.join(BUILD_DIR, '*.gem')].first
   extra = ENV['GEM_HOME'].nil? && ENV['GEM_PATH'].nil? ? "--user-install" : ""
   Kernel.system("#{RUBY} -S gem install --local #{gem} --no-ri --no-rdoc #{extra}")
 end
