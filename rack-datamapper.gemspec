@@ -12,6 +12,13 @@ Gem::Specification.new do |s|
 
   s.files = Dir['MIT-LICENSE']
   s.licenses << 'MIT-LICENSE'
+  s.date = '2010-06-13'
+  s.rubyforge_project = 'rack-datamapper'
+  s.files += Dir['History.txt']
+  s.files += Dir['README.txt']
+  s.extra_rdoc_files = ['History.txt','README.txt']
+  s.files += Dir['Rakefile']
+  s.rdoc_options = ['--main','README.txt']
   s.files += Dir['lib/**/*']
   s.files += Dir['spec/**/*']
   s.test_files += Dir['spec/**/*_spec.rb']

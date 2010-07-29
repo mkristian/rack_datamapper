@@ -13,20 +13,22 @@ task :clean do
   FileUtils.rm_rf(build_dir)
 end
 
-desc 'package as a gem.'
+desc 'Package as a gem.'
 task :package do
   require 'fileutils'
   gemspec = Dir['*.gemspec'].first
-  sh "gem build #{gemspec}"
+  Kernel.system("#{RUBY} -S gem build #{gemspec}")
   FileUtils.mkdir_p(build_dir)
   gem = Dir['*.gem'].first
   FileUtils.mv(gem, File.join(build_dir,"#{gem}"))
+  puts File.join(build_dir,"#{gem}")
 end
 
 desc 'Install the package as a gem.'
 task :install => [:package] do
   gem = Dir[File.join(build_dir, '*.gem')].first
-  sh "gem install --local #{gem} --no-ri --no-rdoc"
+  extra = ENV['GEM_HOME'].nil? && ENV['GEM_PATH'].nil? ? "--user-install" : ""
+  Kernel.system("#{RUBY} -S gem install --local #{gem} --no-ri --no-rdoc #{extra}")
 end
 
 desc 'Run specifications'

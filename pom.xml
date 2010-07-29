@@ -92,20 +92,14 @@
         <version>${jruby.plugins.version}</version>
         <extensions>true</extensions>
 	<configuration>
+	  <date>2010-06-13</date>
+	  <extraRdocFiles>History.txt,README.txt</extraRdocFiles>
+	  <rdocOptions>--main,README.txt</rdocOptions>
+	  <rubyforgeProject>rack-datamapper</rubyforgeProject>
+	  <extraFiles>Rakefile</extraFiles>
 	  <gemspecOverwrite>true</gemspecOverwrite>
 	</configuration>
-        <executions>
-          <execution>
-	    <id>gemspec</id>
-            <goals><goal>package</goal></goals>
-            <configuration>
-              <date>2010-06-13</date>
-              <extraRdocFiles>History.txt,README.txt</extraRdocFiles>
-              <rdocOptions>--main,README.txt</rdocOptions>
-              <rubyforgeProject>rack-datamapper</rubyforgeProject>
-              <extra_files>Rakefile</extra_files>
-            </configuration>
-          </execution>
+	<executions>
 	  <execution>
 	    <id>version</id>
 	    <phase>compile</phase>
