@@ -1,11 +1,11 @@
-require 'pathname'
 require 'rubygems'
+require 'pathname'
 $LOAD_PATH << Pathname(__FILE__).dirname.parent.expand_path + 'lib'
 require 'rack_datamapper'
 require 'dm-core/version'
 require 'dm-migrations'
 require 'dm-transactions'
-p DataMapper::VERSION
+
 def load_driver(name, default_uri)
   return false if ENV['ADAPTER'] != name.to_s
 
@@ -22,6 +22,8 @@ end
 
 ENV['ADAPTER'] ||= 'sqlite3'
 
-HAS_SQLITE3  = load_driver(:sqlite3,  'sqlite3::memory:')
-HAS_MYSQL    = load_driver(:mysql,    'mysql://localhost/dm_core_test')
-HAS_POSTGRES = load_driver(:postgres, 'postgres://postgres@localhost/dm_core_test')
+unless defined? HAS_SQLITE3
+  HAS_SQLITE3  = load_driver(:sqlite3,  'sqlite3::memory:')
+  HAS_MYSQL    = load_driver(:mysql,    'mysql://localhost/dm_core_test')
+  HAS_POSTGRES = load_driver(:postgres, 'postgres://postgres@localhost/dm_core_test')
+end

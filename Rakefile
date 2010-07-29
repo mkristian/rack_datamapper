@@ -1,32 +1,40 @@
 # -*- ruby -*-
 
 require 'rubygems'
+require './lib/rack_datamapper/version.rb'
 
 require 'spec'
 require 'spec/rake/spectask'
-require 'pathname'
-require 'yard'
 
-desc "Run specs"
-Spec::Rake::SpecTask.new('spec')
+build_dir = 'target'
 
+desc 'clean up'
 task :clean do
-  sh "rm -r pkg"
+  FileUtils.rm_rf(build_dir)
 end
 
-desc 'Package as a gem.'
+desc 'package as a gem.'
 task :package do
-  sh "gem build rack_datamapper.gemspec" 
-  sh "mkdir -p pkg"
-  sh "mv rack-datamapper-*.gem pkg"
+  require 'fileutils'
+  gemspec = Dir['*.gemspec'].first
+  sh "gem build #{gemspec}"
+  FileUtils.mkdir_p(build_dir)
+  gem = Dir['*.gem'].first
+  FileUtils.mv(gem, File.join(build_dir,"#{gem}"))
 end
 
 desc 'Install the package as a gem.'
-task :install => [:clean, :package] do
-  gem = Dir['pkg/*.gem'].first
+task :install => [:package] do
+  gem = Dir[File.join(build_dir, '*.gem')].first
   sh "gem install --local #{gem} --no-ri --no-rdoc"
 end
 
-YARD::Rake::YardocTask.new
+desc 'Run specifications'
+Spec::Rake::SpecTask.new(:spec) do |t|
+  if File.exists?(File.join('spec','spec.opts'))
+    t.spec_opts << '--options' << File.join('spec','spec.opts')
+  end
+  t.spec_files = Dir.glob(File.join('spec','**','*_spec.rb'))
+end
 
 # vim: syntax=Ruby

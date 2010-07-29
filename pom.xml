@@ -6,11 +6,16 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>rubygems</groupId>
   <artifactId>rack-datamapper</artifactId>
-  <version>0.3.2</version>
+  <version>0.3.3-SNAPSHOT</version>
   <packaging>gem</packaging>
   <name><![CDATA[this collection of plugins helps to add datamapper functionality to Rack]]></name>
   <description><![CDATA[this collection of plugins helps to add datamapper functionality to Rack. there is a IdentityMaps plugin which wrappes the request and with it all database actions are using that identity map. the transaction related plugin TransactionBoundaries and RestfulTransactions wrappes the request into a transaction. for using datamapper to store session data there is the DatamapperStore.]]></description>
   <url>http://github.com/mkristian/rack_datamapper</url>
+  <scm>
+    <connection>scm:git:git://github.com/mkristian/rack_datamappe.git</connection>
+    <developerConnection>scm:git:git@github.com:mkristian/rack_datamappe.git</developerConnection>
+    <url>http://github.com/mkristian/rack_datamappe</url>
+  </scm>
   <developers>
     <developer>
       <id>m.kristian</id>
@@ -71,20 +76,13 @@
   </dependencies>
   <repositories>
     <repository>
-      <id>rubygems</id>
+      <id>rubygems-releases</id>
       <url>http://gems.saumya.de/releases</url>
     </repository>
   </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-    </pluginRepository>
-  </pluginRepositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jruby.plugins.version>0.20.0-SNAPSHOT</jruby.plugins.version>
+    <jruby.plugins.version>0.20.0</jruby.plugins.version>
   </properties>
   <build>
     <plugins>
@@ -93,14 +91,40 @@
         <artifactId>gem-maven-plugin</artifactId>
         <version>${jruby.plugins.version}</version>
         <extensions>true</extensions>
+	<configuration>
+	  <gemspecOverwrite>true</gemspecOverwrite>
+	</configuration>
+        <executions>
+          <execution>
+	    <id>gemspec</id>
+            <goals><goal>package</goal></goals>
             <configuration>
               <date>2010-06-13</date>
               <extraRdocFiles>History.txt,README.txt</extraRdocFiles>
               <rdocOptions>--main,README.txt</rdocOptions>
-              <requirePaths>lib</requirePaths>
               <rubyforgeProject>rack-datamapper</rubyforgeProject>
-              <rubygemsVersion>1.3.5</rubygemsVersion>
+              <extra_files>Rakefile</extra_files>
             </configuration>
+          </execution>
+	  <execution>
+	    <id>version</id>
+	    <phase>compile</phase>
+	    <goals>
+	      <goal>exec</goal>
+	    </goals>
+	    <configuration>
+	      <script>
+		version = '${project.version}'.sub(/-SNAPSHOT/, '')
+		puts "module Rack"
+		puts "  module DataMapper"
+		puts "    VERSION = '#{version}'.freeze"
+		puts "  end"
+		puts "end"
+	      </script>
+	      <outputFile>lib/rack_datamapper/version.rb</outputFile>
+	    </configuration>
+	  </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>de.saumya.mojo</groupId>

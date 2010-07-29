@@ -1,9 +1,8 @@
-require 'pathname'
-require 'extlib/pathname'
 require 'dm-core'
 
-require Pathname(__FILE__).dirname / 'rack_datamapper' / 'version'
-require Pathname(__FILE__).dirname / 'rack_datamapper' / 'identity_maps'
-require Pathname(__FILE__).dirname / 'rack_datamapper' / 'restful_transactions'
-require Pathname(__FILE__).dirname / 'rack_datamapper' / 'transaction_boundaries'
-require Pathname(__FILE__).dirname / 'rack_datamapper' / 'session' / 'datamapper'
+base = File.join(File.dirname(__FILE__),'rack_datamapper')
+require File.join(base, 'version')
+require File.join(base, 'identity_maps')
+require File.join(base, 'restful_transactions')
+require File.join(base, 'transaction_boundaries')
+require File.join(base, 'session', 'datamapper')
